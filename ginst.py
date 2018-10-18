@@ -8,6 +8,7 @@ import logging
 import multiprocessing
 import os
 import re
+import shutil
 import subprocess
 import sys
 try:
@@ -196,6 +197,17 @@ class GInst(object):
         self._getGInstPreReqs()
         self._downloadSource()
         self._unCompressSource()
+        self._moveToUncompressedSourceFolder()
+        self._callDownloadPrereqs()
+        self._configureBuild()
+        self._make()
+        self._install()
+        logger.info("Done installing gcc")
+
+    def installFromFolder(self, gccFolder):
+        self._getGInstPreReqs()
+        logger.info("Moving gcc to expected uncompressed source path folder")
+        shutil.move(gccFolder, self.gccVersion.getLocalUncompressedSourcePath())
         self._moveToUncompressedSourceFolder()
         self._callDownloadPrereqs()
         self._configureBuild()
