@@ -33,11 +33,13 @@ GCC_FTP_VERSION_FOLDER = 'gnu/gcc'
 GCC_FTP_REGEX = r'%s/gcc\-(\d?\.\d*\.\d*)$' % GCC_FTP_VERSION_FOLDER
 
 class GccVersion(object):
-    def __init__(self, versionString):
+    def __init__(self, versionString, extraConfigureArgs=''):
         if isinstance(versionString, (str, bytes)):
             self.rawVersionString = versionString
         else:
             raise AttributeError("versionString should be string-like")
+
+        self.extraConfigureArgs = extraConfigureArgs
 
     @classmethod
     def getPossibleGccVersions(cls):
@@ -88,8 +90,8 @@ class GccVersion(object):
             prefix = os.path.expanduser('~/')
 
         return self.getLocalUncompressedSourcePath() + \
-        "/configure -v --with-system-zlib --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=%sgcc-%s --enable-checking=release --enable-languages=c,c++ --enable-multilib --program-suffix=-%s" \
-        % (prefix, self.rawVersionString, self.rawVersionString)
+        "/configure -v --with-system-zlib --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=%sgcc-%s --enable-checking=release --enable-languages=c,c++ --enable-multilib --program-suffix=-%s %s" \
+        % (prefix, self.rawVersionString, self.rawVersionString, self.extraConfigureArgs)
 
 class SystemCall(object):
     def __init__(self, cmd):
@@ -126,7 +128,10 @@ class GInst(object):
         os.chdir(THIS_FOLDER)
         if gccVersion is None:
             gccVersion = GccVersion.selectGccVersion()
-        self.gccVersion = GccVersion(gccVersion)
+        elif isinstance(gccVersion, GccVersion):
+            self.gccVersion = gccVersion
+        else:
+            self.gccVersion = GccVersion(gccVersion)
 
     def _isAvailable(self, tool):
         logger.debug("checking if %s is available.." % tool)
