@@ -156,7 +156,7 @@ class GInst(object):
             fail = True
             for i in range(5):
                 logger.debug("wget try %d / %d" % (i + 1, 5))
-                if SystemCall('wget %s --no-check-certificate -O %s' % (self.gccVersion.getSourceUrl(), GCC_LOCAL_COMPRESSED_SOURCE_PATH)).succeeded():
+                if SystemCall('curl -L %s -k > %s' % (self.gccVersion.getSourceUrl(), GCC_LOCAL_COMPRESSED_SOURCE_PATH)).succeeded():
                     fail = False
                     break
             if fail:
