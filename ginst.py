@@ -11,6 +11,8 @@ import re
 import shutil
 import subprocess
 import sys
+import argparse
+
 try:
     raw_input
 except:
@@ -221,5 +223,9 @@ class GInst(object):
         logger.info("Done installing gcc")
 
 if __name__ == '__main__':
-    g = GInst()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-g', '--gcc', help='Gcc version', default='12.2.0')
+    args = parser.parse_args()
+    
+    g = GInst(args.gcc)
     g.install()
