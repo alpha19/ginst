@@ -29,7 +29,7 @@ logger.addHandler(ch)
 THIS_FOLDER = os.path.abspath(os.path.dirname(__file__))
 
 GCC_LOCAL_COMPRESSED_SOURCE_PATH = os.path.join(THIS_FOLDER, 'gcc.tar.gz')
-GCC_SOURCE_URL = "https://ftpmirror.gnu.org/gcc/gcc-%s/gcc-%s.tar.gz"
+GCC_SOURCE_URL = "http://ftpmirror.gnu.org/gcc/gcc-%s/gcc-%s.tar.gz"
 GCC_FTP_BASE = 'mirrors.ocf.berkeley.edu'
 GCC_FTP_VERSION_FOLDER = 'gnu/gcc'
 GCC_FTP_REGEX = r'%s/gcc\-(\d?\.\d*\.\d*)$' % GCC_FTP_VERSION_FOLDER
