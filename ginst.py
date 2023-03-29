@@ -126,7 +126,7 @@ class SystemCall(object):
         return SystemCall('ls /root').succeeded()
 
 class GInst(object):
-    def __init__(self, gccVersion=None):
+    def __init__(self, gccVersion="10.4.0"):
         os.chdir(THIS_FOLDER)
         if gccVersion is None:
             gccVersion = GccVersion.selectGccVersion()
@@ -224,7 +224,7 @@ class GInst(object):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-g', '--gcc', help='Gcc version', default='12.2.0')
+    parser.add_argument('-g', '--gcc', help='Gcc version', default='10.4.0')
     args = parser.parse_args()
     
     g = GInst(args.gcc)
